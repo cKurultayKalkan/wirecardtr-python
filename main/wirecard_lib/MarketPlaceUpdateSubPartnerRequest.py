@@ -13,6 +13,7 @@ class MarketPlaceUpdateSubPartnerRequest:
     SubPartnerType=""
     SubPartnerId=""
     Name=""
+    BranchName=""
     ContactInfo=""
     FinancialInfo=""
 
@@ -42,6 +43,8 @@ class MarketPlaceUpdateSubPartnerRequest:
         SubPartnerId.text= req.SubPartnerId
         Name=SubElement(main_root, 'Name')
         Name.text= req.Name
+        BranchName=SubElement(main_root, 'BranchName')
+        BranchName.text= req.BranchName
     
         contactInfo_root=SubElement(main_root, 'ContactInfo')
         Country = SubElement(contactInfo_root, 'Country')
@@ -54,6 +57,10 @@ class MarketPlaceUpdateSubPartnerRequest:
         BusinessPhone.text = req.ContactInfo.BusinessPhone
         MobilePhone = SubElement(contactInfo_root, 'MobilePhone')
         MobilePhone.text = req.ContactInfo.MobilePhone
+        Email = SubElement(contactInfo_root, 'Email')
+        Email.text = req.ContactInfo.Email
+        InvoiceEmail = SubElement(contactInfo_root, 'InvoiceEmail')
+        InvoiceEmail.text = req.ContactInfo.InvoiceEmail
     
         financialInfo_root=SubElement(main_root, 'FinancialInfo')
         IdentityNumber = SubElement(financialInfo_root, 'IdentityNumber')
@@ -66,8 +73,7 @@ class MarketPlaceUpdateSubPartnerRequest:
         BankName.text = req.FinancialInfo.BankName
         IBAN = SubElement(financialInfo_root, 'IBAN')
         IBAN.text = req.FinancialInfo.IBAN
-        AccountName = SubElement(financialInfo_root, 'AccountName')
-        AccountName.text = req.FinancialInfo.AccountName
+
 
         result = tostring(main_root).decode('utf-8')
         return (result)

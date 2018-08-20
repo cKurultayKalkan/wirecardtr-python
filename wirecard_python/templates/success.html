@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Ödemeniz başarıyla tamamlandı.</h2>
+<div class="row">
+    <br />
+    <div class="col-md-12">
+        <pre>
+            {% if message %}
+            {{ message }}
+            {% endif %}
+            </pre>
+        </pre>
+    </div>
+</div>
 
 {% endblock %}

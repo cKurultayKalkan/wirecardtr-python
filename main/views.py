@@ -12,6 +12,7 @@ from main.wirecard_lib.CCProxySaleRequest import CCProxySaleRequest
 from main.wirecard_lib.CCProxySale3DRequest import CCProxySale3DRequest
 from main.wirecard_lib.MarketPlaceAddSubPartnerRequest import MarketPlaceAddSubPartnerRequest
 from main.wirecard_lib.MarketPlaceUpdateSubPartnerRequest import MarketPlaceUpdateSubPartnerRequest
+from main.wirecard_lib.MarketPlaceWdticketMpsale3dSecureRequest import MarketPlaceWdticketMpsale3dSecureRequest
 from main.wirecard_lib.MarketPlaceDeactiveRequest import MarketPlaceDeactiveRequest
 from main.wirecard_lib.MarketPlaceSale3DSecOrMpSaleRequest import MarketPlaceSale3DSecOrMpSaleRequest
 from main.wirecard_lib.MarketPlaceReleasePaymentRequest import MarketPlaceReleasePaymentRequest
@@ -19,6 +20,9 @@ from main.wirecard_lib.WDTicketSale3DURLOrSaleUrlProxyRequest import WDTicketSal
 from main.wirecard_lib.MarketPlaceMPSaleRequest import MarketPlaceMPSaleRequest
 from main.wirecard_lib.TransactionQueryByOrderRequest import TransactionQueryByOrderRequest
 from main.wirecard_lib.TransactionQueryByMPAYRequest import TransactionQueryByMPAYRequest
+from main.wirecard_lib.SubscriberChangePriceRequest import SubscriberChangePriceRequest
+from main.wirecard_lib.TokenizeCCURLRequest import TokenizeCCURLRequest
+from main.wirecard_lib.TokenizeCCRequest import TokenizeCCRequest
 from main.wirecard_lib.Token import Token
 from main.wirecard_lib.Input import Input
 from main.wirecard_lib.ContactInfo import ContactInfo
@@ -27,19 +31,25 @@ from main.wirecard_lib.CreditCardInfo import CreditCardInfo
 from main.wirecard_lib.CardTokenization import CardTokenization
 from main.wirecard_lib.Product import Product
 from zeep import Client
+
 from dateutil import parser
 import uuid
+import hashlib
 from random import *
 import xml.etree.ElementTree as ET
 import json
+from datetime import datetime  
+from datetime import timedelta 
 
 config = Configs(
     #"Public Magaza Anahtarı
     # size mağaza başvurunuz sonucunda gönderilen public key (açık anahtar) bilgisini kullanınız.",
-    '20923',
+    '',
     #"Private Magaza Anahtarı
     # size mağaza başvurunuz sonucunda gönderilen privaye key (gizli anahtar) bilgisini kullanınız.",
-    '535D7D1B5DA6407EB7F6',
+    '',
+    #Wirecard tarafından verilen hashKey  bilgisidir.
+    '', #HashKey
     #Wirecard xml servisleri API url'lerinin  bilgisidir.
     'https://www.wirecard.com.tr/SGate/Gate', #BaseUrl
 )
@@ -278,8 +288,8 @@ def CCProxySale3D(request):
         req.Description = "Bilgisayar"
         req.InstallmentCount =request.POST.get('installmentCount')
         req.ExtraParam = ""
-        req.ErrorURL = "http://127.0.0.1:8000/fail"
-        req.SuccessURL = "http://127.0.0.1:8000/home/success"
+        req.ErrorURL = "http://127.0.0.1:8000/fail/"
+        req.SuccessURL = "http://127.0.0.1:8000/success/"
         req.Port = "123"
        
         #region Token
@@ -302,7 +312,7 @@ def CCProxySale3D(request):
         req.CardTokenization.RequestType="0"
         req.CardTokenization.CustomerId="01"
         req.CardTokenization.ValidityPeriod="0"
-        req.CardTokenization.CCTokenId=str(uuid.uuid4())
+        req.CardTokenization.CCTokenId=""
 
         #endregion
         message = req.execute(req,config) # Xml servis çağrısın
@@ -319,8 +329,8 @@ def WDTicketSale3DURLProxy(request):
          req.OperationType="Sale3DSURLProxy"
          req.Price = "1"; #0,01 TL
          req.MPAY = ""
-         req.ErrorURL = "http://127.0.0.1:8000/Fail"
-         req.SuccessURL = "http://127.0.0.1:8000/Success"
+         req.ErrorURL = "http://127.0.0.1:8000/Fail/"
+         req.SuccessURL = "http://127.0.0.1:8000/Success/"
          req.ExtraParam = ""
          req.PaymentContent = "Bilgisayar"
          req.Description = "BLGSYR01"
@@ -364,7 +374,7 @@ def MarketPlaceAddSubPartner(request):
         req.UniqueId=str(randint(1, 10000))
         req.SubPartnerType=request.POST.get('subPartnerType')
         req.Name=request.POST.get('name')
-
+        req.BranchName=request.POST.get('name')
         #region Token
         req.Token=Token()
         req.Token.UserCode=config.UserCode
@@ -378,6 +388,8 @@ def MarketPlaceAddSubPartner(request):
         req.ContactInfo.Address = "aaaa"
         req.ContactInfo.MobilePhone =request.POST.get('mobilePhoneNumber')
         req.ContactInfo.BusinessPhone = "2121111111"
+        req.ContactInfo.Email =request.POST.get('emailAddress')
+        req.ContactInfo.InvoiceEmail =request.POST.get('invoiceEmailAddress')
         #endregion
 
         #region Financialinfo Bilgileri
@@ -387,12 +399,33 @@ def MarketPlaceAddSubPartner(request):
         req.FinancialInfo.TaxNumber = "11111111111"
         req.FinancialInfo.BankName = "0012"
         req.FinancialInfo.IBAN = "TR330006100519786457841326"
-        req.FinancialInfo.AccountName = "Ahmet Yasar"
         #endregion
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
        
     return render_to_response('marketplaceAddSubPartner.html', {'message': message})
-        
+
+def SubscriberChangePrice(request):
+    message=""
+    validFrom = datetime.today() + timedelta(1)
+  
+    if request.POST:
+        req=SubscriberChangePriceRequest()
+        req.ServiceType="SubscriberManagementService"
+        req.OperationType="ChangePriceBySubscriber"
+        req.SubscriberId=request.POST.get('subscriberId')
+        req.Price=request.POST.get('price')
+        req.Description="Abonelik ucreti degisimi"
+        req.ValidFrom=validFrom.strftime('%Y%m%d')
+     
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('subscriberChangePrice.html', {'message': message})
+
 def MarketPlaceUpdateSubPartner(request):
     message=""
     if request.POST:
@@ -403,6 +436,7 @@ def MarketPlaceUpdateSubPartner(request):
         req.SubPartnerType=request.POST.get('subPartnerType')
         req.SubPartnerId=request.POST.get('subPartnerId')
         req.Name=request.POST.get('name')
+        req.BranchName=request.POST.get('name')
 
         #region Token
         req.Token=Token()
@@ -417,6 +451,8 @@ def MarketPlaceUpdateSubPartner(request):
         req.ContactInfo.Address = "Istanbul Turkey"
         req.ContactInfo.MobilePhone =request.POST.get('mobilePhoneNumber')
         req.ContactInfo.BusinessPhone = "2121111111"
+        req.ContactInfo.Email =request.POST.get('emailAddress')
+        req.ContactInfo.InvoiceEmail =request.POST.get('invoiceEmailAddress')
         #endregion
 
         #region Financialinfo Bilgileri
@@ -426,7 +462,6 @@ def MarketPlaceUpdateSubPartner(request):
         req.FinancialInfo.TaxNumber = "11111111111"
         req.FinancialInfo.BankName = "0012"
         req.FinancialInfo.IBAN = "TR330006100519786457841326"
-        req.FinancialInfo.AccountName = "Ahmet Yasar"
         #endregion
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
     return render_to_response('marketplaceUpdateSubPartner.html', {'message': message})
@@ -537,6 +572,35 @@ def MarketPlaceMPSale(request):
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
     return render_to_response('marketplaceMpSale.html', {'message': message})
 
+def MarketPlaceWdticketMpsale3dSecure(request):
+    message=""
+    if request.POST:
+        req=MarketPlaceWdticketMpsale3dSecureRequest()
+        req.ServiceType = "WDTicket"
+        req.OperationType = "MPSale3DSECWithUrl"
+        req.Price="1" #0.01 TL
+        req.MPAY = "01"
+     
+        req.Description = "Bilgisayar"
+        req.CommissionRate = "1"; #komisyon oranı 1. 100 ile çarpılıp gönderiliyor
+        req.ExtraParam = ""
+        req.PaymentContent = "BLGSYR01"
+        req.SubPartnerId =request.POST.get('subPartnerId')
+        req.ErrorURL = "http://127.0.0.1:8000/fail/"
+        req.SuccessURL = "http://127.0.0.1:8000/success/"
+
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('marketplacewdticketmpsale3dsecure.html', {'message': message})
+
+
+
+
 def MarketPlaceReleasePayment(request):
      message=""
      if request.POST:
@@ -555,6 +619,50 @@ def MarketPlaceReleasePayment(request):
         #endregion 
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
      return render_to_response('marketplaceReleasePayment.html', {'message': message})
+
+def TokenizeCCURL(request):
+    message=""
+    if request.POST:
+        req=TokenizeCCURLRequest()
+        req.ServiceType = "WDTicket"
+        req.OperationType = "TokenizeCCURL"
+        req.CustomerId =request.POST.get('customerId') 
+        req.ValidityPeriod = "20"
+        req.IPAddress = ""
+        req.ErrorURL = "http://127.0.0.1:8000/tokenizefail/"
+        req.SuccessURL = "http://127.0.0.1:8000/tokenizesuccess/"
+      
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion 
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('tokenizeCCURL.html', {'message': message})
+
+def TokenizeCC(request):
+    message=""
+    if request.POST:
+        req=TokenizeCCRequest()
+        req.ServiceType = "CCTokenizationService"
+        req.OperationType = "TokenizeCC"
+        req.CreditCardNumber=request.POST.get('creditCardNo')
+        req.NameSurname=request.POST.get('ownerName')
+        req.ExpiryDate=request.POST.get('expireMonth') +"/"+request.POST.get('expireYear')
+        req.CVV=request.POST.get('cvv')
+        req.CustomerId =request.POST.get('customerId') 
+        req.ValidityPeriod = "20"
+        req.IPAddress = ""
+        req.Port=""
+        
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion 
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('tokenizeCC.html', {'message': message})    
+
 
 def TransactionQueryByOrderId(request):
     message=""
@@ -589,10 +697,94 @@ def TransactionQueryByMPAY(request):
        message= req.execute(token_request,input_request) #Soap servis çağrısının başlatıldığı kısım. 
     return render_to_response('transactionQueryByMPAY.html', {'message': message}) 
 
+def tokenizesuccess(request):
+    if request.content_params != None:
+        output = "<?xml version='1.0' encoding='UTF-8' ?>"
+        output += "<authResponse>"
+        if request.POST.get('StatusCode') != "":
+            output += "<StatusCode>"+request.POST.get('StatusCode') +"</StatusCode>"
+        if request.POST.get('ResultCode') != "":
+            output += "<ResultCode>"+request.POST.get('ResultCode')+"</ResultCode>"
+        if request.POST.get('ResultMessage') != "":
+            output += "<ResultMessage>"+request.POST.get('ResultMessage')+"</ResultMessage>"
+        if request.POST.get('TokenId') != "":
+            output += "<TokenId>"+request.POST.get('TokenId')+"</TokenId>"
+        if request.POST.get('MaskedCCNo') != "":
+            output += "<MaskedCCNo>"+request.POST.get('MaskedCCNo')+"</MaskedCCNo>"
+        output += "</authResponse>"
+        output = Helper.formatXML(output)
+    return render_to_response('tokenizesuccess.html', {'message': output})
 
+
+def tokenizefail(request):
+    if request.content_params != None:
+        output = "<?xml version='1.0' encoding='UTF-8' ?>"
+        output += "<authResponse>"
+        if request.POST.get('StatusCode') != "":
+            output += "<StatusCode>"+request.POST.get('StatusCode')+"</StatusCode>"
+        if request.POST.get('ResultCode') != "":
+            output += "<ResultCode>"+request.POST.get('ResultCode')+"</ResultCode>"
+        if request.POST.get('ResultMessage') != "":
+            output += "<ResultMessage>"+request.POST.get('ResultMessage')+"</ResultMessage>"
+        output += "</authResponse>"
+        output = Helper.formatXML(output)
+    return render_to_response('tokenizefail.html', {'message': output})
 
 def success(request):
-     return render(request,'success.html',locals())
+    if request.content_params != None:
+        hashedString=Helper.ComputeHash(request.POST.get('StatusCode')+request.POST.get('LastTransactionDate')+request.POST.get('MPAY')+request.POST.get('OrderId').lower()+config.Hashkey)
+        output = "<?xml version='1.0' encoding='UTF-8' ?>"
+        output += "<authResponse>"
+        if request.POST.get('OrderId') != "":
+            output += "<OrderId>"+request.POST.get('OrderId') +"</OrderId>"
+        if request.POST.get('MPAY') != "":
+            output += "<MPAY>"+request.POST.get('MPAY')+"</MPAY>"
+        if request.POST.get('StatusCode') != "":
+            output += "<StatusCode>"+request.POST.get('StatusCode')+"</StatusCode>"
+        if request.POST.get('ResultCode') != "":
+            output += "<ResultCode>"+request.POST.get('ResultCode')+"</ResultCode>"
+        if request.POST.get('ResultMessage') != "":
+            output += "<ResultMessage>"+request.POST.get('ResultMessage')+"</ResultMessage>"
+        if request.POST.get('LastTransactionDate') != "":
+            output += "<LastTransactionDate>"+request.POST.get('LastTransactionDate')+"</LastTransactionDate>"
+        if request.POST.get('MaskedCCNo') != "":
+            output += "<MaskedCCNo>"+request.POST.get('MaskedCCNo')+"</MaskedCCNo>"
+        if request.POST.get('CCTokenId') != "":
+            output += "<CCTokenId>"+request.POST.get('CCTokenId')+"</CCTokenId>"
+        if request.POST.get('HashParam') != "":
+            output += "<HashParam>"+request.POST.get('HashParam')+"</HashParam>"
+            output += "<hashedString>"+hashedString+"</hashedString>"
+        output += "</authResponse>"
+
+        if request.POST.get('HashParam')== hashedString:
+           message ="Gelen Hash değerinin doğru hesaplanmış olması işlem güvenliği açısından önemlidir !"
+        
+        output = Helper.formatXML(output)
+    return render_to_response('success.html', {'message': output})
 
 def fail(request):
-     return render(request,'fail.html',locals())
+    if request.content_params != None:
+        output = "<?xml version='1.0' encoding='UTF-8' ?>"
+        output += "<authResponse>"
+        if request.POST.get('OrderId') != "":
+            output += "<OrderId>"+request.POST.get('OrderId') +"</OrderId>"
+        if request.POST.get('MPAY') != "":
+            output += "<MPAY>"+request.POST.get('MPAY')+"</MPAY>"
+        if request.POST.get('StatusCode') != "":
+            output += "<StatusCode>"+request.POST.get('StatusCode')+"</StatusCode>"
+        if request.POST.get('ResultCode') != "":
+            output += "<ResultCode>"+request.POST.get('ResultCode')+"</ResultCode>"
+        if request.POST.get('ResultMessage') != "":
+            output += "<ResultMessage>"+request.POST.get('ResultMessage')+"</ResultMessage>"
+        if request.POST.get('LastTransactionDate') != "":
+            output += "<LastTransactionDate>"+request.POST.get('LastTransactionDate')+"</LastTransactionDate>"
+        if request.POST.get('MaskedCCNo') != "":
+            output += "<MaskedCCNo>"+request.POST.get('MaskedCCNo')+"</MaskedCCNo>"
+        if request.POST.get('CCTokenId') != "":
+            output += "<CCTokenId>"+request.POST.get('CCTokenId')+"</CCTokenId>"
+        output += "</authResponse>"
+        output = Helper.formatXML(output)
+    return render_to_response('fail.html', {'message': output})
+    
+        
+    

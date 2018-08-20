@@ -26,12 +26,14 @@ urlpatterns = [
     url(r'^MarketPlaceDeactiveSubPartner/', MarketPlaceDeactiveSubPartner, name='MarketPlaceDeactiveSubPartner'),
     url(r'^SendInformationSmsService/', SendInformationSmsService, name='SendInformationSmsService'),
     url(r'^SelectSubscriber/', SelectSubscriber, name='SelectSubscriber'),
+    url(r'^SubscriberChangePrice/', SubscriberChangePrice, name='SubscriberChangePrice'),
     url(r'^SelectSubscriberDetail/', SelectSubscriberDetail, name='SelectSubscriberDetail'),
     url(r'^MarketPlaceAddSubPartner/', MarketPlaceAddSubPartner, name='MarketPlaceAddSubPartner'),
     url(r'^MarketPlaceUpdateSubPartner/', MarketPlaceUpdateSubPartner, name='MarketPlaceUpdateSubPartner'),
     url(r'^DeactivateSubscriber/', DeactivateSubscriber, name='DeactivateSubscriber'),
     url(r'^MarketPlaceSale3DSec/', MarketPlaceSale3DSec, name='MarketPlaceSale3DSec'),
     url(r'^MarketPlaceMPSale/', MarketPlaceMPSale, name='MarketPlaceMPSale'),
+    url(r'^MarketPlaceWdticketMpsale3dSecure/', MarketPlaceWdticketMpsale3dSecure, name='MarketPlaceWdticketMpsale3dSecure'),
     url(r'^MarketPlaceReleasePayment/', MarketPlaceReleasePayment, name='MarketPlaceReleasePayment'),
     url(r'^CCProxySale/', CCProxySale, name='CCProxySale'),
     url(r'^CCProxySale3D/', CCProxySale3D, name='CCProxySale3D'),
@@ -39,8 +41,13 @@ urlpatterns = [
     url(r'^WDTicketSaleURLProxy/', WDTicketSaleURLProxy, name='WDTicketSaleURLProxy'),
     url(r'^TransactionQueryByOrderId/', TransactionQueryByOrderId, name='TransactionQueryByOrderId'),
     url(r'^TransactionQueryByMPAY/', TransactionQueryByMPAY, name='TransactionQueryByMPAY'),
+    url(r'^TokenizeCCURL/', TokenizeCCURL, name='TokenizeCCURL'),
+    url(r'^TokenizeCC/', TokenizeCC, name='TokenizeCC'),
+    
     
     url(r'^success/', success, name='success'),
     url(r'^fail/', fail, name='fail'),
+    url(r'^tokenizesuccess/', tokenizesuccess, name='tokenizesuccess'),
+    url(r'^tokenizefail/', tokenizefail, name='tokenizefail'),
     
 ]

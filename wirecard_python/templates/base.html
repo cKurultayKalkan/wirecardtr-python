@@ -37,7 +37,7 @@
                         <li><a href="{% url 'SelectSubscriber' %}">Abonelik Listeleme </a></li>
                         <li><a href="{% url 'SelectSubscriberDetail' %}">Abonelik Listeleme </a></li>
                         <li><a href="{% url 'DeactivateSubscriber' %}">Abonelik İptal Etme </a></li>
-         
+                        <li><a href="{% url 'SubscriberChangePrice' %}">Abonelik Ücreti Güncelleme </a></li>
                     </ul>
                 </li>
                 
@@ -69,11 +69,20 @@
                     <li><a href="{% url 'MarketPlaceDeactiveSubPartner' %}">Mağaza Sil </a></li>
                     <li><a href="{% url 'MarketPlaceSale3DSec' %}">3D Secure İle Ödeme </a></li>
                     <li><a href="{% url 'MarketPlaceMPSale' %}">3D Secure Olmadan Ödeme </a></li>
+                    <li><a href="{% url 'MarketPlaceWdticketMpsale3dSecure' %}">Wirecard ortak ödeme sayfası </a></li>
                     <li><a href="{% url 'MarketPlaceReleasePayment' %}">Ödeme Onay Servisi </a></li>
           
                    
                     </ul>
                 </li>
+                <li>
+                    <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false">Kart Saklama</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu6">
+
+                        <li><a href="{% url 'TokenizeCCURL' %}">Url Yöntemi İle Kart Saklama </a></li>
+                        <li><a href="{% url 'TokenizeCC' %}">Direk Kart Saklama </a></li>
+                    </ul>
+                </li> 
                 <li>
                     <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false">İşlem Sorgulama</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu5">

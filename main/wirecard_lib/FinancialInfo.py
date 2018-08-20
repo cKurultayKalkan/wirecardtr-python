@@ -5,3 +5,5 @@ class FinancialInfo:
     Address=""
     BusinessPhone=""
     MobilePhone=""
+    Email=""
+    InvoiceEmail=""

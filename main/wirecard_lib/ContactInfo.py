@@ -5,4 +5,4 @@ class ContactInfo:
     TaxNumber=""
     BankName=""
     IBAN=""
-    AccountName=""
+
