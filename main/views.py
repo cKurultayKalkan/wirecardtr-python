@@ -40,6 +40,7 @@ import xml.etree.ElementTree as ET
 import json
 from datetime import datetime  
 from datetime import timedelta 
+from datetime import datetime
 
 config = Configs(
     #"Public Magaza Anahtarı
@@ -400,6 +401,12 @@ def MarketPlaceAddSubPartner(request):
         req.FinancialInfo.BankName = "0012"
         req.FinancialInfo.IBAN = "TR330006100519786457841326"
         #endregion
+
+        req.AuthSignatoryName="Ahmet"
+        req.AuthSignatorySurname="Yılmaz"
+        req.AuthSignatoryBirthDate=datetime.now().strftime("%Y-%m-%d")
+
+
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
        
     return render_to_response('marketplaceAddSubPartner.html', {'message': message})
@@ -463,6 +470,11 @@ def MarketPlaceUpdateSubPartner(request):
         req.FinancialInfo.BankName = "0012"
         req.FinancialInfo.IBAN = "TR330006100519786457841326"
         #endregion
+
+        req.AuthSignatoryName="Ahmet"
+        req.AuthSignatorySurname="Yılmaz"
+        req.AuthSignatoryBirthDate=datetime.now().strftime("%Y-%m-%d")
+
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
     return render_to_response('marketplaceUpdateSubPartner.html', {'message': message})
 def MarketPlaceDeactiveSubPartner(request):

@@ -16,7 +16,9 @@ class MarketPlaceUpdateSubPartnerRequest:
     BranchName=""
     ContactInfo=""
     FinancialInfo=""
-
+    AuthSignatoryName=""
+    AuthSignatorySurname=""
+    AuthSignatoryBirthDate=""
     def execute(self, req,configs):
        
         helper = Helper()
@@ -74,6 +76,14 @@ class MarketPlaceUpdateSubPartnerRequest:
         IBAN = SubElement(financialInfo_root, 'IBAN')
         IBAN.text = req.FinancialInfo.IBAN
 
+        AuthSignatory_root=SubElement(main_root, 'AuthSignatory')
+        Name = SubElement(AuthSignatory_root, 'Name')
+        Name.text = req.AuthSignatoryName
+        Surname = SubElement(AuthSignatory_root, 'Surname')
+        Surname.text = req.AuthSignatorySurname
+        BirthDate = SubElement(AuthSignatory_root, 'BirthDate')
+        BirthDate.text = req.AuthSignatoryBirthDate
+        
 
         result = tostring(main_root).decode('utf-8')
         return (result)
