@@ -400,6 +400,7 @@ def MarketPlaceAddSubPartner(request):
         req.FinancialInfo.TaxNumber = "11111111111"
         req.FinancialInfo.BankName = "0012"
         req.FinancialInfo.IBAN = "TR330006100519786457841326"
+        
         #endregion
 
         req.AuthSignatoryName="Ahmet"
@@ -410,6 +411,53 @@ def MarketPlaceAddSubPartner(request):
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
        
     return render_to_response('marketplaceAddSubPartner.html', {'message': message})
+
+def MarketPlaceAddSubPartnerOnlineVerify(request):
+    message=""
+    if request.POST:
+        req= MarketPlaceAddSubPartnerRequest()
+        req.ServiceType="CCMarketPlace"
+        req.OperationType="AddSubPartner"
+        req.UniqueId=str(randint(1, 10000))
+        req.SubPartnerType=request.POST.get('subPartnerType')
+        req.Name=request.POST.get('name')
+        req.BranchName=request.POST.get('name')
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+        #region Contactinfo Bilgileri
+        req.ContactInfo= ContactInfo()
+        req.ContactInfo.Country = "TR"
+        req.ContactInfo.City = "34"
+        req.ContactInfo.Address = "aaaa"
+        req.ContactInfo.MobilePhone =request.POST.get('mobilePhoneNumber')
+        req.ContactInfo.BusinessPhone = "2121111111"
+        req.ContactInfo.Email =request.POST.get('emailAddress')
+        req.ContactInfo.InvoiceEmail =request.POST.get('invoiceEmailAddress')
+        #endregion
+
+        #region Financialinfo Bilgileri
+        req.FinancialInfo = FinancialInfo()
+        req.FinancialInfo.IdentityNumber =request.POST.get('identityNumber')
+        req.FinancialInfo.TaxOffice = "istanbul"
+        req.FinancialInfo.TaxNumber = "11111111111"
+        req.FinancialInfo.BankName = "0012"
+        req.FinancialInfo.IBAN = "TR330006100519786457841326"
+        req.FinancialInfo.TradeRegisterNumber = "963018"
+        req.FinancialInfo.TradeChamber = "İTO"
+        #endregion
+
+        req.AuthSignatoryName="Ahmet"
+        req.AuthSignatorySurname="Yılmaz"
+        req.AuthSignatoryBirthDate=datetime.now().strftime("%Y-%m-%d")
+
+
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+       
+    return render_to_response('marketplaceAddSubPartnerOnlineVerify.html', {'message': message})
 
 def SubscriberChangePrice(request):
     message=""
@@ -477,6 +525,55 @@ def MarketPlaceUpdateSubPartner(request):
 
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
     return render_to_response('marketplaceUpdateSubPartner.html', {'message': message})
+def MarketPlaceUpdateSubPartnerOnlineVerify(request):
+    message=""
+    if request.POST:
+        req=MarketPlaceUpdateSubPartnerRequest()
+        req.ServiceType="CCMarketPlace"
+        req.OperationType="UpdateSubPartner"
+        req.UniqueId=str(randint(1, 10000))
+        req.SubPartnerType=request.POST.get('subPartnerType')
+        req.SubPartnerId=request.POST.get('subPartnerId')
+        req.Name=request.POST.get('name')
+        req.BranchName=request.POST.get('name')
+
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+        #region Contactinfo Bilgileri
+        req.ContactInfo= ContactInfo()
+        req.ContactInfo.Country = "TR"
+        req.ContactInfo.City = "34"
+        req.ContactInfo.Address = "Istanbul Turkey"
+        req.ContactInfo.MobilePhone =request.POST.get('mobilePhoneNumber')
+        req.ContactInfo.BusinessPhone = "2121111111"
+        req.ContactInfo.Email =request.POST.get('emailAddress')
+        req.ContactInfo.InvoiceEmail =request.POST.get('invoiceEmailAddress')
+        #endregion
+
+        #region Financialinfo Bilgileri
+        req.FinancialInfo = FinancialInfo()
+        req.FinancialInfo.IdentityNumber =request.POST.get('identityNumber')
+        req.FinancialInfo.TaxOffice = "istanbul"
+        req.FinancialInfo.TaxNumber = "11111111111"
+        req.FinancialInfo.BankName = "0012"
+        req.FinancialInfo.IBAN = "TR330006100519786457841326"
+        req.FinancialInfo.TradeRegisterNumber = "963018"
+        req.FinancialInfo.TradeChamber = "İTO"
+        #endregion
+
+        req.AuthSignatoryName="Ahmet"
+        req.AuthSignatorySurname="Yılmaz"
+        req.AuthSignatoryBirthDate=datetime.now().strftime("%Y-%m-%d")
+
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('marketplaceUpdateSubPartner.html', {'message': message})
+
+
+
 def MarketPlaceDeactiveSubPartner(request):
     message=""
     if request.POST:

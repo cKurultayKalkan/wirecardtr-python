@@ -75,6 +75,10 @@ class MarketPlaceUpdateSubPartnerRequest:
         BankName.text = req.FinancialInfo.BankName
         IBAN = SubElement(financialInfo_root, 'IBAN')
         IBAN.text = req.FinancialInfo.IBAN
+        TradeRegisterNumber = SubElement(financialInfo_root, 'TradeRegisterNumber')
+        TradeRegisterNumber.text = req.FinancialInfo.TradeRegisterNumber
+        TradeChamber = SubElement(financialInfo_root, 'TradeChamber')
+        TradeChamber.text = req.FinancialInfo.TradeChamber
 
         AuthSignatory_root=SubElement(main_root, 'AuthSignatory')
         Name = SubElement(AuthSignatory_root, 'Name')

@@ -64,8 +64,10 @@
                     <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false">Mağaza Servisleri</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu3">
 
-                    <li><a href="{% url 'MarketPlaceAddSubPartner' %}">Mağaza Oluştur </a></li>
-                    <li><a href="{% url 'MarketPlaceUpdateSubPartner' %}">Mağaza Güncelle </a></li>
+                    <li><a href="{% url 'MarketPlaceAddSubPartner' %}">Mağaza Oluştur (Belge İle Doğrulama)</a></li>
+                    <li><a href="{% url 'MarketPlaceUpdateSubPartner' %}">Mağaza Güncelle (Belge İle Doğrulama)</a></li>
+                    <li><a href="{% url 'MarketPlaceAddSubPartnerOnlineVerify' %}">Mağaza Oluştur (Online Doğrulama)</a></li>
+                    <li><a href="{% url 'MarketPlaceUpdateSubPartnerOnlineVerify' %}">Mağaza Güncelle (Online Doğrulama)</a></li>
                     <li><a href="{% url 'MarketPlaceDeactiveSubPartner' %}">Mağaza Sil </a></li>
                     <li><a href="{% url 'MarketPlaceSale3DSec' %}">3D Secure İle Ödeme </a></li>
                     <li><a href="{% url 'MarketPlaceMPSale' %}">3D Secure Olmadan Ödeme </a></li>

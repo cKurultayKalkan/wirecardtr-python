@@ -43,7 +43,8 @@ urlpatterns = [
     url(r'^TransactionQueryByMPAY/', TransactionQueryByMPAY, name='TransactionQueryByMPAY'),
     url(r'^TokenizeCCURL/', TokenizeCCURL, name='TokenizeCCURL'),
     url(r'^TokenizeCC/', TokenizeCC, name='TokenizeCC'),
-    
+    url(r'^MarketPlaceAddSubPartnerOnlineVerify/', MarketPlaceAddSubPartnerOnlineVerify, name='MarketPlaceAddSubPartnerOnlineVerify'),
+    url(r'^MarketPlaceUpdateSubPartnerOnlineVerify/', MarketPlaceUpdateSubPartnerOnlineVerify, name='MarketPlaceUpdateSubPartnerOnlineVerify'),
     
     url(r'^success/', success, name='success'),
     url(r'^fail/', fail, name='fail'),

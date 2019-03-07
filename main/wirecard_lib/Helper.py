@@ -4,7 +4,6 @@ import base64
 import requests
 import xml.dom.minidom as MND
 
-
 class Helper(object):
 
     @staticmethod
@@ -25,7 +24,7 @@ class HttpClient(object):
         print("----IN HTTP POST----")
         print("URL: ", url)
         print("DATA:", content)
-        client= requests.post(url,content)
+        client= requests.post(url,content,verify=False)
         return client.text
 
 

@@ -7,3 +7,5 @@ class FinancialInfo:
     MobilePhone=""
     Email=""
     InvoiceEmail=""
+    TradeRegisterNumber=""
+    TradeChamber=""
