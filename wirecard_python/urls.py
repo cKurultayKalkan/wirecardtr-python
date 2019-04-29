@@ -45,7 +45,8 @@ urlpatterns = [
     url(r'^TokenizeCC/', TokenizeCC, name='TokenizeCC'),
     url(r'^MarketPlaceAddSubPartnerOnlineVerify/', MarketPlaceAddSubPartnerOnlineVerify, name='MarketPlaceAddSubPartnerOnlineVerify'),
     url(r'^MarketPlaceUpdateSubPartnerOnlineVerify/', MarketPlaceUpdateSubPartnerOnlineVerify, name='MarketPlaceUpdateSubPartnerOnlineVerify'),
-    
+    url(r'^BinQuery/', BinQuery, name='BinQuery'),
+
     url(r'^success/', success, name='success'),
     url(r'^fail/', fail, name='fail'),
     url(r'^tokenizesuccess/', tokenizesuccess, name='tokenizesuccess'),

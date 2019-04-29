@@ -11,6 +11,7 @@ from main.wirecard_lib.SubscriberDeactivateRequest import SubscriberDeactivateRe
 from main.wirecard_lib.CCProxySaleRequest import CCProxySaleRequest
 from main.wirecard_lib.CCProxySale3DRequest import CCProxySale3DRequest
 from main.wirecard_lib.MarketPlaceAddSubPartnerRequest import MarketPlaceAddSubPartnerRequest
+from main.wirecard_lib.BinQueryRequest import BinQueryRequest
 from main.wirecard_lib.MarketPlaceUpdateSubPartnerRequest import MarketPlaceUpdateSubPartnerRequest
 from main.wirecard_lib.MarketPlaceWdticketMpsale3dSecureRequest import MarketPlaceWdticketMpsale3dSecureRequest
 from main.wirecard_lib.MarketPlaceDeactiveRequest import MarketPlaceDeactiveRequest
@@ -411,6 +412,27 @@ def MarketPlaceAddSubPartner(request):
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
        
     return render_to_response('marketplaceAddSubPartner.html', {'message': message})
+
+
+def BinQuery(request):
+    message=""
+    if request.POST:
+        req= BinQueryRequest()
+        req.ServiceType="MerchantQueries"
+        req.OperationType="BinQueryOperation"
+        req.BIN=request.POST.get('bin')
+        
+       
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+       
+    return render_to_response('BinQuery.html', {'message': message})
 
 def MarketPlaceAddSubPartnerOnlineVerify(request):
     message=""
