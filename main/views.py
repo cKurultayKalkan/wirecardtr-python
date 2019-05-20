@@ -13,6 +13,7 @@ from main.wirecard_lib.CCProxySale3DRequest import CCProxySale3DRequest
 from main.wirecard_lib.MarketPlaceAddSubPartnerRequest import MarketPlaceAddSubPartnerRequest
 from main.wirecard_lib.BinQueryRequest import BinQueryRequest
 from main.wirecard_lib.MarketPlaceUpdateSubPartnerRequest import MarketPlaceUpdateSubPartnerRequest
+from main.wirecard_lib.MarketPlaceCreateSubPartnerRequest import MarketPlaceCreateSubPartnerRequest
 from main.wirecard_lib.MarketPlaceWdticketMpsale3dSecureRequest import MarketPlaceWdticketMpsale3dSecureRequest
 from main.wirecard_lib.MarketPlaceDeactiveRequest import MarketPlaceDeactiveRequest
 from main.wirecard_lib.MarketPlaceSale3DSecOrMpSaleRequest import MarketPlaceSale3DSecOrMpSaleRequest
@@ -502,6 +503,26 @@ def SubscriberChangePrice(request):
 
         message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
     return render_to_response('subscriberChangePrice.html', {'message': message})
+
+def MarketPlaceCreateSubPartner(request):
+    message=""
+    if request.POST:
+        req=MarketPlaceCreateSubPartnerRequest()
+        req.ServiceType="WDTicket"
+        req.OperationType="CreateSPRegistrationURL"
+        req.UniqueId="5000"
+        req.SubPartnerType=request.POST.get('subPartnerType')
+        
+
+        #region Token
+        req.Token=Token()
+        req.Token.UserCode=config.UserCode
+        req.Token.Pin=config.Pin
+        #endregion
+
+       
+        message = req.execute(req,config) # Xml servis çağrısının başlatıldığı kısım
+    return render_to_response('MarketPlaceCreateSubPartner.html', {'message': message})
 
 def MarketPlaceUpdateSubPartner(request):
     message=""

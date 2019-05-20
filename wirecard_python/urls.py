@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^SelectSubscriberDetail/', SelectSubscriberDetail, name='SelectSubscriberDetail'),
     url(r'^MarketPlaceAddSubPartner/', MarketPlaceAddSubPartner, name='MarketPlaceAddSubPartner'),
     url(r'^MarketPlaceUpdateSubPartner/', MarketPlaceUpdateSubPartner, name='MarketPlaceUpdateSubPartner'),
+    url(r'^MarketPlaceCreateSubPartner/', MarketPlaceCreateSubPartner, name='MarketPlaceCreateSubPartner'),
     url(r'^DeactivateSubscriber/', DeactivateSubscriber, name='DeactivateSubscriber'),
     url(r'^MarketPlaceSale3DSec/', MarketPlaceSale3DSec, name='MarketPlaceSale3DSec'),
     url(r'^MarketPlaceMPSale/', MarketPlaceMPSale, name='MarketPlaceMPSale'),
