@@ -12,6 +12,8 @@ class MarketPlaceAddSubPartnerRequest:
     SubPartnerType=""
     Name=""
     BranchName=""
+    SuccessURL=""
+    ErrorURL=""
     ContactInfo=""
     FinancialInfo=""
     AuthSignatoryName=""
@@ -45,6 +47,11 @@ class MarketPlaceAddSubPartnerRequest:
         Name.text= req.Name
         BranchName=SubElement(main_root, 'BranchName')
         BranchName.text= req.BranchName
+
+        SuccessURL=SubElement(main_root, 'SuccessURL')
+        SuccessURL.text= req.SuccessURL
+        ErrorURL=SubElement(main_root, 'ErrorURL')
+        ErrorURL.text= req.ErrorURL
     
         contactInfo_root=SubElement(main_root, 'ContactInfo')
         Country = SubElement(contactInfo_root, 'Country')

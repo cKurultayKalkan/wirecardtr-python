@@ -445,6 +445,9 @@ def MarketPlaceAddSubPartnerOnlineVerify(request):
         req.SubPartnerType=request.POST.get('subPartnerType')
         req.Name=request.POST.get('name')
         req.BranchName=request.POST.get('name')
+        req.SuccessURL="https://www.test.com/Success"
+        req.ErrorURL="https://www.test.com/Error"
+        
         #region Token
         req.Token=Token()
         req.Token.UserCode=config.UserCode
