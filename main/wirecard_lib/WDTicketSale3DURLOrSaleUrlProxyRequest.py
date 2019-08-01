@@ -16,6 +16,7 @@ class WDTicketSale3DURLOrSaleUrlProxyRequest:
     ExtraParam=""
     Description=""
     PaymentContent=""
+    InstallmentOptions=""
 
     def execute(self, req,configs):     
         helper = Helper()
@@ -44,6 +45,8 @@ class WDTicketSale3DURLOrSaleUrlProxyRequest:
         UserCode = SubElement(token_root, 'UserCode')
         UserCode.text = req.Token.UserCode
         Pin = SubElement(token_root, 'Pin')
-        Pin.text = req.Token.Pin      
+        Pin.text = req.Token.Pin  
+        InstallmentOptions = SubElement(token_root, 'InstallmentOptions')
+        InstallmentOptions.text = req.Token.InstallmentOptions     
         result = tostring(main_root).decode('utf-8')
         return (result)

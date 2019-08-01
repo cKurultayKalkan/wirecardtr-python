@@ -337,6 +337,8 @@ def WDTicketSale3DURLProxy(request):
          req.ExtraParam = ""
          req.PaymentContent = "Bilgisayar"
          req.Description = "BLGSYR01"
+         req.InstallmentOptions = "0"
+         
 
          #region Token
          req.Token=Token()
@@ -359,6 +361,7 @@ def WDTicketSaleURLProxy(request):
          req.ExtraParam = ""
          req.PaymentContent = "Bilgisayar"
          req.Description = "BLGSYR01"
+         req.InstallmentOptions = "0"
 
          #region Token
          req.Token=Token()
