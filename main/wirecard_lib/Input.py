@@ -33,6 +33,8 @@ class Input:
     SubscriberId=""
     UniqueId=""
     orderId=""
+    InstallmentOptions=""
+    CommissionRateList=""
     class Product:
         ProductId=""
         ProductCategory=""

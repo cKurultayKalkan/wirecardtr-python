@@ -26,6 +26,7 @@ from main.wirecard_lib.SubscriberChangePriceRequest import SubscriberChangePrice
 from main.wirecard_lib.TokenizeCCURLRequest import TokenizeCCURLRequest
 from main.wirecard_lib.TokenizeCCRequest import TokenizeCCRequest
 from main.wirecard_lib.Token import Token
+from main.wirecard_lib.CommissionRateList import CommissionRateList
 from main.wirecard_lib.Input import Input
 from main.wirecard_lib.ContactInfo import ContactInfo
 from main.wirecard_lib.FinancialInfo import FinancialInfo
@@ -746,6 +747,13 @@ def MarketPlaceWdticketMpsale3dSecure(request):
         req.SubPartnerId =request.POST.get('subPartnerId')
         req.ErrorURL = "http://127.0.0.1:8000/fail/"
         req.SuccessURL = "http://127.0.0.1:8000/success/"
+        req.InstallmentOptions = "0"
+        req.CommissionRateList = CommissionRateList()
+        req.CommissionRateList.Inst0 = "110"
+        req.CommissionRateList.Inst3 = "130"
+        req.CommissionRateList.Inst6 = "160"
+        req.CommissionRateList.Inst9 = "190"
+
 
         #region Token
         req.Token=Token()

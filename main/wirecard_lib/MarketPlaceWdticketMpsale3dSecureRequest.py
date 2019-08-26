@@ -15,6 +15,8 @@ class MarketPlaceWdticketMpsale3dSecureRequest:
     ErrorURL=""
     SuccessURL=""
     CommissionRate=""
+    InstallmentOptions=""
+    CommissionRateList=""
     Price=""
     SubPartnerId=""
     PaymentContent=""
@@ -44,6 +46,19 @@ class MarketPlaceWdticketMpsale3dSecureRequest:
 
         CommissionRate=SubElement(main_root,'CommissionRate')
         CommissionRate.text=req.CommissionRate
+        InstallmentOptions=SubElement(main_root,'InstallmentOptions')
+        InstallmentOptions.text=req.InstallmentOptions
+        
+        commissionRateList_root=SubElement(main_root, 'CommissionRateList')
+        Inst0 = SubElement(commissionRateList_root, 'Inst0')
+        Inst0.text = req.CommissionRateList.Inst0
+        Inst3 = SubElement(commissionRateList_root, 'Inst3')
+        Inst3.text = req.CommissionRateList.Inst3
+        Inst6 = SubElement(commissionRateList_root, 'Inst6')
+        Inst6.text = req.CommissionRateList.Inst6
+        Inst9 = SubElement(commissionRateList_root, 'Inst9')
+        Inst9.text = req.CommissionRateList.Inst9
+
         Price=SubElement(main_root,'Price')
         Price.text=req.Price
         SubPartnerId=SubElement(main_root,'SubPartnerId')
