@@ -1,5 +1,3 @@
-
-
 class Configs:
     '''
     Tüm çağrılarda kullanılacak ayarların tutulduğu sınıftır.
@@ -7,13 +5,12 @@ class Configs:
     Bu sınıf üzerinde tüm sistemde kullanacağımız ayarları tutar ve bunlara göre işlem yaparız.
     '''
 
-    def __init__(self, UserCode, Pin, Hashkey,BaseUrl):
-        #UserCode - size başvurunuz sonucunda gönderilen UserCode bilgisini kullanınız.
+    def __init__(self, UserCode, Pin, Hashkey, BaseUrl):
+        # UserCode - size başvurunuz sonucunda gönderilen UserCode bilgisini kullanınız.
         self.UserCode = UserCode
-        #PPin  - size başvurunuz sonucunda gönderilen pin bilgisini kullanınız.
+        # PPin  - size başvurunuz sonucunda gönderilen pin bilgisini kullanınız.
         self.Pin = Pin
-        #HashKey  - Wirecard tarafından size verilen HashKey Değeridir.
+        # HashKey  - Wirecard tarafından size verilen HashKey Değeridir.
         self.Hashkey = Hashkey
-        #Wirecard xml servisleri API url'lerinin bilgisini içerir.
+        # Wirecard xml servisleri API url'lerinin bilgisini içerir.
         self.BaseUrl = BaseUrl
-       

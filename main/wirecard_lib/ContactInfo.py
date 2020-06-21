@@ -1,8 +1,7 @@
-#MarketPlace Oluşturma ve Güncelleme işlemlerinde ortak olarak kullanılacak Contact info bilgilerini temsil eder.
+# MarketPlace Oluşturma ve Güncelleme işlemlerinde ortak olarak kullanılacak Contact info bilgilerini temsil eder.
 class ContactInfo:
-    IdentityNumber=""
-    TaxOffice=""
-    TaxNumber=""
-    BankName=""
-    IBAN=""
-
+    IdentityNumber = ""
+    TaxOffice = ""
+    TaxNumber = ""
+    BankName = ""
+    IBAN = ""
